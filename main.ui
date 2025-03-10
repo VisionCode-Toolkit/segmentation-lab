@@ -1,0 +1,1511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1383</width>
+    <height>858</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #006d77;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QWidget" name="widget" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #006d77;</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 28px;
+font-weight:500;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>icons_setup/icons/dissolving.png</pixmap>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 28px;
+font-weight:500;</string>
+             </property>
+             <property name="text">
+              <string>Segmentation Lab</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #edf6f9;
+border-radius: 10px;</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>30</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="browse">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color:#edf6f9;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+               </property>
+               <property name="text">
+                <string>Browse</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>icons_setup/icons/image.png</normaloff>icons_setup/icons/image.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_18">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_13">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;
+border: None;</string>
+               </property>
+               <property name="text">
+                <string>Mode:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="mode_combobox">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>35</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    color: #edf6f9; /* Teal green text color */
+    font-size: 18px;
+    background-color: #006d77; /* Teal background */
+    padding: 5px 15px; /* Adjusted padding for consistency */
+    border: 1px solid #edf6f9; /* Teal green border */
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Drop-down list styling */
+QComboBox QAbstractItemView {
+    background-color: #006d77; /* Light cyan background */
+    color: #edf6f9; /* Teal green text for readability */
+    selection-background-color: #004c4f;  /* Soft teal highlight background */
+    selection-color: #ffffff; /* White text for better contrast */
+    border: 1px solid #edf6f9;
+    border-radius: 5px;
+}
+
+/* Drop-down button */
+QComboBox::drop-down {
+    width: 20px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-left: 1px solid #d9f2f3; /* Softer teal for separation */
+    /* background-color: #004c4f; /* Light teal background */
+}
+
+/* Drop-down arrow */
+QComboBox::down-arrow {
+    image: url(icons_setup/icons/down.png); /* Ensure file path is correct */
+    width: 12px;
+    height: 12px;
+}
+</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Choose Mode</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Canny Detector</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Hough - Line Detection</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Hough - Circle Detection</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Hough - Ellipse Detection</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Active Contour (Snake)</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QStackedWidget" name="stackedWidget">
+             <property name="styleSheet">
+              <string notr="true">border: none;</string>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="main_page"/>
+             <widget class="QWidget" name="canny_page">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Kernel Size:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="canny_kernel_size">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QLabel" name="label_6">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Sigma:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="canny_sigma">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="label_7">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Low Threshold:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="canny_low_threshold">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="label_8">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>High Threshold:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="canny_high_threshold">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <property name="topMargin">
+                  <number>30</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="canny_apply_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Apply</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="Hough_line_page">
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_11">
+                 <item>
+                  <widget class="QLabel" name="label_9">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>No. of Lines:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="line_no_of_lines">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Ex: 1</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_13">
+                 <item>
+                  <widget class="QLabel" name="label_10">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Low Threshold:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="line_low_threshold">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Ex: </string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_14">
+                 <item>
+                  <widget class="QLabel" name="label_11">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>High Threshold:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="line_high_threshold">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <property name="topMargin">
+                  <number>30</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="line_apply_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Apply</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="Hough_elipse_page">
+              <layout class="QHBoxLayout" name="horizontalLayout_12">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_16">
+                 <item>
+                  <widget class="QLabel" name="label_12">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Thickness:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="ellipse_thickness">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_17">
+                 <property name="topMargin">
+                  <number>30</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="ellipse_apply_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Apply</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="hough_circle_page">
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_19">
+                 <item>
+                  <widget class="QLabel" name="label_14">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Min Radius:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="circle_min_radius">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_20">
+                 <item>
+                  <widget class="QLabel" name="label_15">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Max Radius:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="circle_max_radius">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_21">
+                 <item>
+                  <widget class="QLabel" name="label_16">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Bin Threshold:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="circle_bin_threshold">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_22">
+                 <item>
+                  <widget class="QLabel" name="label_17">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Pixel Threshold:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="pixel_threshold">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_23">
+                 <property name="topMargin">
+                  <number>30</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="circle_apply_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Apply</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="snake_page">
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_28">
+                 <item>
+                  <widget class="QLabel" name="label_18">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Alpha (α): </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="snake_alpha">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_27">
+                 <item>
+                  <widget class="QLabel" name="label_21">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Beta (β):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="snake_beta">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_26">
+                 <item>
+                  <widget class="QLabel" name="label_19">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Gamma (γ):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="snake_gamma">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_25">
+                 <item>
+                  <widget class="QLabel" name="label_20">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>No. of Iterations:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="snake_no_of_iterations">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+    QLineEdit {
+        background-color: #edf6f9;
+        color: #000000;
+        border: 2px solid #006d77;
+        border-radius: 6px;
+        padding: 5px;
+        font-size: 14px;
+    }
+    QLineEdit:focus {
+        border: 2px solid #83c5be;
+        background-color: #ffffff;
+    }
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_24">
+                 <property name="topMargin">
+                  <number>30</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="snake_apply_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>33</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Apply</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <property name="bottomMargin">
+         <number>20</number>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 18px;
+font-weight:500;</string>
+            </property>
+            <property name="text">
+             <string>Input:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="input_widget" native="true">
+            <property name="styleSheet">
+             <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_29">
+             <item>
+              <layout class="QVBoxLayout" name="input_layout"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="leftMargin">
+           <number>10</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 18px;
+font-weight:500;</string>
+              </property>
+              <property name="text">
+               <string>Output:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="minimumSize">
+               <size>
+                <width>40</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:#006d77;
+border-radius: 5px;
+
+font-size: 16px;
+font-weight:500;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>icons_setup/icons/reset.png</normaloff>icons_setup/icons/reset.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QWidget" name="output_widget" native="true">
+            <property name="styleSheet">
+             <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_30">
+             <item>
+              <layout class="QVBoxLayout" name="output_layout"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

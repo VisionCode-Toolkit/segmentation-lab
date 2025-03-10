@@ -1,0 +1,17 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+
+    <file>..\icons_setup\icons\arrow.png</file>
+    <file>..\icons_setup\icons\camera.png</file>
+    <file>..\icons_setup\icons\down.png</file>
+    <file>..\icons_setup\icons\filter.png</file>
+    <file>..\icons_setup\icons\image-.png</file>
+    <file>..\icons_setup\icons\image.png</file>
+    <file>..\icons_setup\icons\noise.png</file>
+    <file>..\icons_setup\icons\right-arrow.png</file>
+    <file>..\icons_setup\icons\saturation.png</file>
+    <file>..\icons_setup\icons\start.png</file>
+
+  </qresource>
+</RCC>
