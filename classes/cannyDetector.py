@@ -27,6 +27,8 @@ class Canny_detector():
 
         # thresholding
         thresholded_img = self.double_thresholding(resultant_img, low_thresh, high_tresh)
+        final_output = self.apply_hysteresis(thresholded_img)
+        self.output_image_viewer.current_image.modified_image = final_output
 
     def kernels_for_gradient(self):
         #sobel kernels
@@ -95,8 +97,8 @@ class Canny_detector():
     def double_thresholding(self, resultant_img, low_thresh, high_thresh):
         image_height, image_width = resultant_img.shape
         thresholded_img = np.zeros((image_height, image_width), dtype=np.int32)
-        for i in range(0, image_height):
-            for j in range(0, image_width):
+        for i in range(1, image_height -1):
+            for j in range(1, image_width -1):
                 # lower than low threshold
                 if resultant_img[i, j] < low_thresh:
                     thresholded_img[i, j] = 0
@@ -109,36 +111,26 @@ class Canny_detector():
                 else:
                     thresholded_img[i, j] = 255
 
-    def _double_thresholding(g_suppressed, low_threshold, high_threshold):
-        g_thresholded = np.zeros(g_suppressed.shape)
-        for i in range(0, g_suppressed.shape[0]):  # loop over pixels
-            for j in range(0, g_suppressed.shape[1]):
-                if g_suppressed[i, j] < low_threshold:  # lower than low threshold
-                    g_thresholded[i, j] = 0
-                elif g_suppressed[i, j] >= low_threshold and g_suppressed[i, j] < high_threshold:  # between thresholds
-                    g_thresholded[i, j] = 128
-                else:  # higher than high threshold
-                    g_thresholded[i, j] = 255
-        return g_thresholded
+        return thresholded_img
 
-    # def threshold(img, lowThresholdRatio=0.05, highThresholdRatio=0.09):
-    #
-    #     highThreshold = img.max() * highThresholdRatio;
-    #     lowThreshold = highThreshold * lowThresholdRatio;
-    #
-    #     M, N = img.shape
-    #     res = np.zeros((M, N), dtype=np.int32)
-    #
-    #     weak = 25
-    #     strong = 255
-    #
-    #     strong_i, strong_j = np.where(img >= highThreshold)
-    #     weak_i, weak_j = np.where((img <= highThreshold) & (img >= lowThreshold))
-    #
-    #     res[strong_i, strong_j] = strong
-    #     res[weak_i, weak_j] = weak
-    #
-    #     return res
+    def apply_hysteresis(self, thresholded_img):
+        image_height, image_width = thresholded_img.shape
+        final_output = np.zeros((image_height, image_width), dtype=np.int32)
+        for i in range(1, image_height - 1):
+            for j in range(1, image_width - 1):
+                val = thresholded_img[i, j]
+                # if a weak edge connected to strong
+                if val == 128:
+                    if thresholded_img[i - 1, j] == 255 or thresholded_img[i + 1, j] == 255 or thresholded_img[
+                        i - 1, j - 1] == 255 or thresholded_img[i + 1, j - 1] == 255 or thresholded_img[
+                        i - 1, j + 1] == 255 or thresholded_img[i + 1, j + 1] == 255 or thresholded_img[i, j - 1] == 255 or \
+                            thresholded_img[i, j + 1] == 255:
+                        # replace weak edge as strong
+                        final_output[i, j] = 255
+                elif val == 255:
+                    # strong edge remains the same
+                    final_output[i, j] = 255
+        return final_output
 
     def kernel_restrictions(self, kernel_size):
         if kernel_size <3 :
@@ -149,4 +141,4 @@ class Canny_detector():
             raise ValueError("pick a smaller kernel size")
 
 
-
+# https://github.com/UsamaI000/CannyEdgeDetection-from-scratch-python/blob/master/CannyEdgeDetector.ipynb
