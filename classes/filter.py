@@ -7,9 +7,10 @@ class Filters():
     def __init__(self, output_image_viewer):
         # redundant for now
         self.output_image_viewer = output_image_viewer
-    def apply_filters(self, kernel_size, sigma, output_img):
+    def apply_filters(self, kernel_size, sigma):
         # feel free to add filters needed here (ASK ME FIRST)
-        self.apply_gaussian_filter(kernel_size, sigma, output_img)
+        filtered_img = self.apply_gaussian_filter(kernel_size, sigma)
+        return filtered_img
 
     def create_gaussian_kernel(self, kernel_size, sigma):
         gaussian_kernel = []
@@ -25,17 +26,16 @@ class Filters():
         gaussian_kernel = np.array(gaussian_kernel) / total_sum
         return gaussian_kernel
 
-    def apply_gaussian_filter(self, sigma, output_img, kernel_size=11):
-        image_height, image_width = output_img.shape
-        filtered_img = np.zeros_like(output_img, dtype=np.float32)
+    def apply_gaussian_filter(self, sigma, kernel_size=11):
+        image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
+        filtered_img = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
 
         # creating the gaussian kernel
         kernel = self.create_gaussian_kernel(kernel_size, sigma)
         # creating padding (fake pixels to handle edges)
         pad_size = kernel_size // 2
-        padded_image = np.pad(output_img,
-                              ((pad_size, pad_size), (pad_size, pad_size)),
-                              mode='reflect')
+        padded_image = np.pad(self.output_image_viewer.current_image.modified_image
+                              ,((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')
 
         for i in range(pad_size, image_height + pad_size):
             for j in range(pad_size, image_width + pad_size):
