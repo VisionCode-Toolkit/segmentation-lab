@@ -38,6 +38,14 @@ class MainWindow(QMainWindow):
         self.mode_combobox.currentIndexChanged.connect(self.on_choose_mode_value_changed)
         
         self.reset_button = self.findChild(QPushButton, "")
+
+        self.kernel_size_text = self.findChild(QLineEdit, "canny_kernel_size")
+        self.sigma_text = self.findChild(QLineEdit, "canny_sigma")
+        self.low_thresh_text = self.findChild(QLineEdit, "canny_low_threshold")
+        self.high_thresh_text = self.findChild(QLineEdit, "canny_high_threshold")
+
+        self.apply_canny_button = self.findChild(QPushButton, "canny_apply_button")
+        self.apply_canny_button.clicked.connect(self.apply_canny)
         
     def browse_image(self):
         print("pushed")
@@ -73,6 +81,13 @@ class MainWindow(QMainWindow):
             
         if page_index != -1:
             self.modes_stacked_widget.setCurrentIndex(page_index)
+
+    def apply_canny(self):
+        kernel_size_text = int(self.kernel_size_text.text())
+        sigma_text = int(self.sigma_text.text())
+        low_thresh = int(self.low_thresh_text.text())
+        high_thresh = int(self.low_thresh_text.text())
+        print(kernel_size_text, sigma_text, low_thresh, high_thresh)
     
         
 if __name__ == '__main__':

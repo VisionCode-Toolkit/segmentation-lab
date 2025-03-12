@@ -45,6 +45,7 @@ class Canny_detector():
         )
         return kernel_x, kernel_y
 
+    @staticmethod
     def scale(val):
         #for better visualization
         # (val - min) / (max - min) *255
@@ -53,8 +54,9 @@ class Canny_detector():
     def calculate_gradient(self):
         kernel_x, kernel_y = self.kernels_for_gradient()
         #correlation from scipy to speed up things a little bit
-        G_X = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_x)
-        G_Y = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_y)
+        # mode = "same" --> to ensure the output has the same size as the input
+        G_X = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_x, mode='same')
+        G_Y = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_y, mode='same')
         # obtaining mag and theta
         total_change = self.scale(np.hypot(G_X, G_Y))
         theta = np.arctan2(G_X, G_Y)
@@ -113,22 +115,39 @@ class Canny_detector():
 
         return thresholded_img
 
+    # def apply_hysteresis(self, thresholded_img):
+    #     image_height, image_width = thresholded_img.shape
+    #     final_output = np.zeros((image_height, image_width), dtype=np.int32)
+    #     for i in range(1, image_height - 1):
+    #         for j in range(1, image_width - 1):
+    #             val = thresholded_img[i, j]
+    #             # if a weak edge connected to strong
+    #             if val == 128:
+    #                 if thresholded_img[i - 1, j] == 255 or thresholded_img[i + 1, j] == 255 or thresholded_img[
+    #                     i - 1, j - 1] == 255 or thresholded_img[i + 1, j - 1] == 255 or thresholded_img[
+    #                     i - 1, j + 1] == 255 or thresholded_img[i + 1, j + 1] == 255 or thresholded_img[i, j - 1] == 255 or \
+    #                         thresholded_img[i, j + 1] == 255:
+    #                     # replace weak edge as strong
+    #                     final_output[i, j] = 255
+    #             elif val == 255:
+    #                 # strong edge remains the same
+    #                 final_output[i, j] = 255
+    #     return final_output
     def apply_hysteresis(self, thresholded_img):
         image_height, image_width = thresholded_img.shape
-        final_output = np.zeros((image_height, image_width), dtype=np.int32)
+        final_output = np.zeros((image_height, image_width), dtype=np.uint8)
         for i in range(1, image_height - 1):
             for j in range(1, image_width - 1):
                 val = thresholded_img[i, j]
-                # if a weak edge connected to strong
                 if val == 128:
-                    if thresholded_img[i - 1, j] == 255 or thresholded_img[i + 1, j] == 255 or thresholded_img[
-                        i - 1, j - 1] == 255 or thresholded_img[i + 1, j - 1] == 255 or thresholded_img[
-                        i - 1, j + 1] == 255 or thresholded_img[i + 1, j + 1] == 255 or thresholded_img[i, j - 1] == 255 or \
-                            thresholded_img[i, j + 1] == 255:
-                        # replace weak edge as strong
+                    if (thresholded_img[i - 1, j] == 255 or thresholded_img[i + 1, j] == 255 or
+                            thresholded_img[i - 1, j - 1] == 255 or thresholded_img[i + 1, j - 1] == 255 or
+                            thresholded_img[i - 1, j + 1] == 255 or thresholded_img[i + 1, j + 1] == 255 or
+                            thresholded_img[i, j - 1] == 255 or thresholded_img[i, j + 1] == 255):
                         final_output[i, j] = 255
+                    else:
+                        final_output[i, j] = 0
                 elif val == 255:
-                    # strong edge remains the same
                     final_output[i, j] = 255
         return final_output
 
@@ -137,7 +156,8 @@ class Canny_detector():
             raise ValueError("kernel size must be >= 3")
         if kernel_size %2 ==0:
             raise ValueError("kernel size must be odd")
-        if (kernel_size * kernel_size) < len(self.output_image_viewer):
+        if (kernel_size * kernel_size) > (self.output_image_viewer.current_image.modified_image.shape[0] *
+                                          self.output_image_viewer.current_image.modified_image.shape[1]):
             raise ValueError("pick a smaller kernel size")
 
 
