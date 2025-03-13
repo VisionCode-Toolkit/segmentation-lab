@@ -14,6 +14,7 @@ class Filters():
         return filtered_img
 
     def create_gaussian_kernel(self, kernel_size, sigma):
+        # sigma = 0.3 * ((kernel_size - 1) * 0.5 - 1) + 0.8
         gaussian_kernel = []
         total_sum = 0
         for i in range(int(-(kernel_size - 1) / 2), int((kernel_size - 1) / 2 + 1)):

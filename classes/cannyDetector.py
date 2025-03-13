@@ -11,7 +11,7 @@ from classes.filter import Filters
 
 class Canny_detector():
     def __init__(self, output_image_viewer):
-        self.output_image_viewer = output_image_v addiewer
+        self.output_image_viewer = output_image_viewer
         self.filter = Filters(self.output_image_viewer)
 
     def apply_canny_detector(self, kernel_size, sigma, low_thresh, high_tresh):
