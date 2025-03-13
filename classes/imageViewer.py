@@ -1,6 +1,8 @@
 import pyqtgraph as pg
 from enums.viewerType import ViewerType
 import cv2
+
+
 class ImageViewer(pg.ImageView):
     def __init__(self):
         super().__init__()
@@ -10,7 +12,7 @@ class ImageViewer(pg.ImageView):
         self.ui.menuBtn.hide()
         self.getView().setAspectLocked(False)
         self.current_image = None
-        
+
     def update_plot(self):
         if self.current_image is not None:
             self.clear()
