@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 from scipy.signal import correlate2d
+from scipy.interpolate import splprep, splev
+from skimage.morphology import skeletonize
+
 
 from classes.filter import Filters
 
@@ -8,7 +11,7 @@ from classes.filter import Filters
 
 class Canny_detector():
     def __init__(self, output_image_viewer):
-        self.output_image_viewer = output_image_viewer
+        self.output_image_viewer = output_image_v addiewer
         self.filter = Filters(self.output_image_viewer)
 
     def apply_canny_detector(self, kernel_size, sigma, low_thresh, high_tresh):
@@ -30,6 +33,8 @@ class Canny_detector():
             # thresholding
             thresholded_img = self.double_thresholding(resultant_img, low_thresh, high_tresh)
             final_output = self.apply_hysteresis(thresholded_img)
+            # final_output = self.apply_morphological_operations(final_output, kernel_size=3)
+            final_output = self.thin_edges(final_output)
             self.output_image_viewer.current_image.modified_image = final_output
 
     def kernels_for_gradient(self):
@@ -113,83 +118,56 @@ class Canny_detector():
                     resultant_img[i, j] = 0
         return resultant_img
 
-    # def double_thresholding(self, resultant_img, low_thresh, high_thresh):
-    #     image_height, image_width = resultant_img.shape
-    #     thresholded_img = np.zeros((image_height, image_width), dtype=np.int32)
-    #     for i in range(1, image_height -1):
-    #         for j in range(1, image_width -1):
-    #             # lower than low threshold
-    #             if resultant_img[i, j] < low_thresh:
-    #                 thresholded_img[i, j] = 0
-    #
-    #             # between thresholds
-    #             elif resultant_img[i, j] >= low_thresh and resultant_img[i, j] < high_thresh:
-    #                 thresholded_img[i, j] = 128
-    #
-    #             # higher than high threshold
-    #             else:
-    #                 thresholded_img[i, j] = 255
-    #
-    #     return thresholded_img
+    def double_thresholding(self, resultant_img, low_thresh, high_thresh):
+        image_height, image_width = resultant_img.shape
+        thresholded_img = np.zeros((image_height, image_width), dtype=np.int32)
+        for i in range(1, image_height -1):
+            for j in range(1, image_width -1):
+                # lower than low threshold
+                if resultant_img[i, j] < low_thresh:
+                    thresholded_img[i, j] = 0
 
-    def double_thresholding(self, img, lowThresholdRatio=0.05, highThresholdRatio=0.09):
+                # between thresholds
+                elif resultant_img[i, j] >= low_thresh and resultant_img[i, j] < high_thresh:
+                    thresholded_img[i, j] = 128
 
-        highThreshold = img.max() * highThresholdRatio;
-        lowThreshold = highThreshold * lowThresholdRatio;
+                # higher than high threshold
+                else:
+                    thresholded_img[i, j] = 255
 
-        M, N = img.shape
-        res = np.zeros((M, N), dtype=np.int32)
+        return thresholded_img
 
-        weak = 25
-        strong = 255
 
-        strong_i, strong_j = np.where(img >= highThreshold)
-        # zeros_i, zeros_j = np.where(img < lowThreshold)
-
-        weak_i, weak_j = np.where((img <= highThreshold) & (img >= lowThreshold))
-
-        res[strong_i, strong_j] = strong
-        res[weak_i, weak_j] = weak
-
-        return res
-
-    def apply_hysteresis(self, img):
-        weak = 25
-        strong = 255
-        M, N = img.shape
-
-        for i in range(1, M - 1):
-            for j in range(1, N - 1):
-                if (img[i, j] == weak):
-                    if (
-                            (img[i + 1, j - 1] == strong) or (img[i + 1, j] == strong) or
-                            (img[i + 1, j + 1] == strong) or (img[i, j - 1] == strong) or
-                            (img[i, j + 1] == strong) or (img[i - 1, j - 1] == strong) or
-                            (img[i - 1, j] == strong) or (img[i - 1, j + 1] == strong)
-                    ):
-                        img[i, j] = strong
+    def apply_hysteresis(self, thresholded_img):
+        image_height, image_width = thresholded_img.shape
+        final_output = np.zeros((image_height, image_width), dtype=np.uint8)
+        for i in range(1, image_height - 1):
+            for j in range(1, image_width - 1):
+                val = thresholded_img[i, j]
+                if val == 128:
+                    if (thresholded_img[i - 1, j] == 255 or thresholded_img[i + 1, j] == 255 or
+                            thresholded_img[i - 1, j - 1] == 255 or thresholded_img[i + 1, j - 1] == 255 or
+                            thresholded_img[i - 1, j + 1] == 255 or thresholded_img[i + 1, j + 1] == 255 or
+                            thresholded_img[i, j - 1] == 255 or thresholded_img[i, j + 1] == 255):
+                        final_output[i, j] = 255
                     else:
-                        img[i, j] = 0
-        return img
+                        final_output[i, j] = 0
+                elif val == 255:
+                    final_output[i, j] = 255
+        return final_output
+
+    def apply_morphological_operations(self, edges, kernel_size=3):
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
+        dilated_edges = cv2.dilate(edges, kernel, iterations=1)
+        closed_edges = cv2.morphologyEx(dilated_edges, cv2.MORPH_CLOSE, kernel)
+        return closed_edges
+
+    def thin_edges(self, edges):
+        return skeletonize(edges // 255).astype(np.uint8) * 255
 
 
-    # def apply_hysteresis(self, thresholded_img):
-    #     image_height, image_width = thresholded_img.shape
-    #     final_output = np.zeros((image_height, image_width), dtype=np.uint8)
-    #     for i in range(1, image_height - 1):
-    #         for j in range(1, image_width - 1):
-    #             val = thresholded_img[i, j]
-    #             if val == 128:
-    #                 if (thresholded_img[i - 1, j] == 255 or thresholded_img[i + 1, j] == 255 or
-    #                         thresholded_img[i - 1, j - 1] == 255 or thresholded_img[i + 1, j - 1] == 255 or
-    #                         thresholded_img[i - 1, j + 1] == 255 or thresholded_img[i + 1, j + 1] == 255 or
-    #                         thresholded_img[i, j - 1] == 255 or thresholded_img[i, j + 1] == 255):
-    #                     final_output[i, j] = 255
-    #                 else:
-    #                     final_output[i, j] = 0
-    #             elif val == 255:
-    #                 final_output[i, j] = 255
-    #     return final_output
+
+
 
     def kernel_restrictions(self, kernel_size):
         if kernel_size <3 :
@@ -222,3 +200,44 @@ class Canny_detector():
     #                 # strong edge remains the same
     #                 final_output[i, j] = 255
     #     return final_output
+
+    # def double_thresholding(self, img, lowThresholdRatio=0.05, highThresholdRatio=0.09):
+    #
+    #     highThreshold = img.max() * highThresholdRatio;
+    #     lowThreshold = highThreshold * lowThresholdRatio;
+    #
+    #     M, N = img.shape
+    #     res = np.zeros((M, N), dtype=np.int32)
+    #
+    #     weak = 25
+    #     strong = 255
+    #
+    #     strong_i, strong_j = np.where(img >= highThreshold)
+    #     # zeros_i, zeros_j = np.where(img < lowThreshold)
+    #
+    #     weak_i, weak_j = np.where((img <= highThreshold) & (img >= lowThreshold))
+    #
+    #     res[strong_i, strong_j] = strong
+    #     res[weak_i, weak_j] = weak
+    #
+    #     return res
+
+
+    # def apply_hysteresis(self, img):
+    #     weak = 25
+    #     strong = 255
+    #     M, N = img.shape
+    #
+    #     for i in range(1, M - 1):
+    #         for j in range(1, N - 1):
+    #             if (img[i, j] == weak):
+    #                 if (
+    #                         (img[i + 1, j - 1] == strong) or (img[i + 1, j] == strong) or
+    #                         (img[i + 1, j + 1] == strong) or (img[i, j - 1] == strong) or
+    #                         (img[i, j + 1] == strong) or (img[i - 1, j - 1] == strong) or
+    #                         (img[i - 1, j] == strong) or (img[i - 1, j + 1] == strong)
+    #                 ):
+    #                     img[i, j] = strong
+    #                 else:
+    #                     img[i, j] = 0
+    #     return img
