@@ -13,6 +13,8 @@ from classes.intializeContour import IntializeContour
 from classes.imageViewer import ImageViewer
 from enums.viewerType import ViewerType
 from classes.controller import Controller
+from classes.cannyDetector import Canny_detector
+
 from enums.modes import Modes
 from classes.snake import ActiveContour
 from classes.cannyDetector import Canny_detector
@@ -54,6 +56,7 @@ class MainWindow(QMainWindow):
         self.apply_canny_button = self.findChild(QPushButton, "canny_apply_button")
         self.apply_canny_button.clicked.connect(self.apply_canny)
         self.canny_detector = Canny_detector(self.output_image_viewer)
+
 
     def browse_image(self):
         print("pushed")
@@ -113,9 +116,13 @@ class MainWindow(QMainWindow):
         low_thresh = float(self.low_thresh_text.text())
         high_thresh = float(self.low_thresh_text.text())
         print(kernel_size, sigma, low_thresh, high_thresh)
+
         self.canny_detector.apply_canny_detector(kernel_size, sigma, low_thresh, high_thresh)
         self.controller.update()
 
+
+    
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
