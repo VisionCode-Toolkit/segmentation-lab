@@ -18,6 +18,7 @@ from classes.cannyDetector import Canny_detector
 from enums.modes import Modes
 from classes.snake import ActiveContour
 from classes.cannyDetector import Canny_detector
+from classes.hough import Hough
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -56,6 +57,7 @@ class MainWindow(QMainWindow):
         self.apply_canny_button = self.findChild(QPushButton, "canny_apply_button")
         self.apply_canny_button.clicked.connect(self.apply_canny)
         self.canny_detector = Canny_detector(self.output_image_viewer)
+        self.hough = Hough(self.output_image_viewer)
 
 
     def browse_image(self):
@@ -109,6 +111,15 @@ class MainWindow(QMainWindow):
 
         if page_index != -1:
             self.modes_stacked_widget.setCurrentIndex(page_index)
+            
+    def on_detect_circle_clicked(self):
+        self.hough.detect_circles()
+    
+    def on_detect_line_clicked(self):
+        self.hough.detect_lines()
+    
+    def on_detect_ellipse_clicked(self):
+        self.hough.detect_ellipse()
 
     def apply_canny(self):
         kernel_size = int(self.kernel_size_text.text())
@@ -116,7 +127,6 @@ class MainWindow(QMainWindow):
         low_thresh = float(self.low_thresh_text.text())
         high_thresh = float(self.low_thresh_text.text())
         print(kernel_size, sigma, low_thresh, high_thresh)
-
         self.canny_detector.apply_canny_detector(kernel_size, sigma, low_thresh, high_thresh)
         self.controller.update()
 
