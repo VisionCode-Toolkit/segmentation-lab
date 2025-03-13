@@ -12,6 +12,8 @@ from classes.image import Image
 from classes.imageViewer import ImageViewer
 from enums.viewerType import ViewerType
 from classes.controller import Controller
+from classes.cannyDetector import Canny_detector
+
 from enums.modes import Modes
 
 class MainWindow(QMainWindow):
@@ -46,6 +48,8 @@ class MainWindow(QMainWindow):
 
         self.apply_canny_button = self.findChild(QPushButton, "canny_apply_button")
         self.apply_canny_button.clicked.connect(self.apply_canny)
+        self.canny_detector = Canny_detector(self.output_image_viewer)
+
         
     def browse_image(self):
         print("pushed")
@@ -83,11 +87,13 @@ class MainWindow(QMainWindow):
             self.modes_stacked_widget.setCurrentIndex(page_index)
 
     def apply_canny(self):
-        kernel_size_text = int(self.kernel_size_text.text())
-        sigma_text = int(self.sigma_text.text())
-        low_thresh = int(self.low_thresh_text.text())
-        high_thresh = int(self.low_thresh_text.text())
-        print(kernel_size_text, sigma_text, low_thresh, high_thresh)
+        kernel_size = int(self.kernel_size_text.text())
+        sigma = float(self.sigma_text.text())
+        low_thresh = float(self.low_thresh_text.text())
+        high_thresh = float(self.low_thresh_text.text())
+        print(kernel_size, sigma, low_thresh, high_thresh)
+        self.canny_detector.apply_canny_detector(kernel_size,sigma, low_thresh, high_thresh)
+        self.controller.update()
     
         
 if __name__ == '__main__':
