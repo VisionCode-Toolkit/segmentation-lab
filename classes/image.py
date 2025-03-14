@@ -32,6 +32,9 @@ class Image():
         if len(self.__modified_image.shape) != 2:
             imported_image_gray_scale = np.dot(self.__modified_image[..., :3], [0.2989, 0.570, 0.1140])
             self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
+            
+    def reset(self):
+        self.__modified_image = deepcopy(self.__original_image)
 
     @property
     def original_image(self):

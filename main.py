@@ -47,7 +47,8 @@ class MainWindow(QMainWindow):
         self.mode_combobox = self.findChild(QComboBox, "mode_combobox")
         self.mode_combobox.currentIndexChanged.connect(self.on_choose_mode_value_changed)
 
-        self.reset_button = self.findChild(QPushButton, "")
+        self.reset_button = self.findChild(QPushButton, "pushButton_2")
+        self.reset_button.clicked.connect(self.on_reset_button_clicked)
 
         self.kernel_size_text = self.findChild(QLineEdit, "canny_kernel_size")
         self.sigma_text = self.findChild(QLineEdit, "canny_sigma")
@@ -128,6 +129,10 @@ class MainWindow(QMainWindow):
         high_thresh = float(self.low_thresh_text.text())
         print(kernel_size, sigma, low_thresh, high_thresh)
         self.canny_detector.apply_canny_detector(kernel_size, sigma, low_thresh, high_thresh)
+        self.controller.update()
+        
+    def on_reset_button_clicked(self):
+        self.output_image_viewer.current_image.reset()
         self.controller.update()
 
 

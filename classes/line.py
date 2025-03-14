@@ -1,19 +1,23 @@
-from .shape import Shape
+# from .shape import Shape
 import numpy as np
-class Line(Shape):
-    def __init__(self, x_start, x_end, m, b, num_of_points = 500):
+import matplotlib.pyplot as plt
+
+class Line():
+    def __init__(self,rho, theta, t_range = (-0, 500), x_start=0, x_end = 500, num_of_points = 500):
         self.x_start = x_start
         self.x_end = x_end
-        self.m = m
-        self.b = b
+        self.rho = rho 
+        self.theta = theta
+        self.t_range = t_range
         self.num_of_points = num_of_points
         self.__shape_list = []
         self.__fill_shape_list()
     
     def __fill_shape_list(self):
-        x_values = np.linspace(self.x_start, self.x_end, self.num_of_points)
-        y_values = self.m * x_values + self.b
-        self.shape_list = [x_values, y_values]
+        t = np.linspace(self.t_range[0], self.t_range[1], self.num_of_points)
+        x_values = self.rho * np.cos(self.theta) + t * (-np.sin(self.theta))
+        y_values = self.rho * np.sin(self.theta) + t * np.cos(self.theta)
+        self.__shape_list = [x_values, y_values]
         
     @property
     def shape_list(self):
