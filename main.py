@@ -63,6 +63,9 @@ class MainWindow(QMainWindow):
         self.canny_detector = Canny_detector(self.output_image_viewer)
         self.hough = Hough(self.output_image_viewer)
 
+        self.statistics_widget = self.findChild(QWidget, "statistics_widget")
+        self.statistics_widget.hide()
+
 
     def browse_image(self):
         print("pushed")
@@ -97,6 +100,7 @@ class MainWindow(QMainWindow):
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "canny_page"))
         elif text == Modes.SNAKE.value:
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "snake_page"))
+            self.statistics_widget.show()
 
         elif text == Modes.LINE.value:
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "Hough_line_page"))
