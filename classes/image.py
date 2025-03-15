@@ -35,6 +35,7 @@ class Image():
             
     def reset(self):
         self.__modified_image = deepcopy(self.__original_image)
+        self.shapes_list.clear()
 
     @property
     def original_image(self):

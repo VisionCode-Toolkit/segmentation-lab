@@ -49,6 +49,9 @@ class MainWindow(QMainWindow):
 
         self.reset_button = self.findChild(QPushButton, "pushButton_2")
         self.reset_button.clicked.connect(self.on_reset_button_clicked)
+        
+        self.line_apply_button = self.findChild(QPushButton, "line_apply_button")
+        self.line_apply_button.clicked.connect(self.on_detect_line_clicked)
 
         self.kernel_size_text = self.findChild(QLineEdit, "canny_kernel_size")
         self.sigma_text = self.findChild(QLineEdit, "canny_sigma")
@@ -117,7 +120,11 @@ class MainWindow(QMainWindow):
         self.hough.detect_circles()
     
     def on_detect_line_clicked(self):
-        self.hough.detect_lines()
+        accumulator_threshold = int(self.findChild(QLineEdit, "line_no_of_lines").text())
+        low_threshold = int(self.findChild(QLineEdit, "line_low_threshold").text())
+        high_threshold = int(self.findChild(QLineEdit, "line_high_threshold").text())
+        self.hough.detect_lines(accumulator_threshold, low_threshold, high_threshold)
+        self.controller.update()
     
     def on_detect_ellipse_clicked(self):
         self.hough.detect_ellipse()
