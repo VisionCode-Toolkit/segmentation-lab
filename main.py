@@ -52,6 +52,9 @@ class MainWindow(QMainWindow):
         
         self.line_apply_button = self.findChild(QPushButton, "line_apply_button")
         self.line_apply_button.clicked.connect(self.on_detect_line_clicked)
+        
+        self.circle_apply_button = self.findChild(QPushButton, "circle_apply_button")
+        self.circle_apply_button.clicked.connect(self.on_detect_circle_clicked)
 
         self.kernel_size_text = self.findChild(QLineEdit, "canny_kernel_size")
         self.sigma_text = self.findChild(QLineEdit, "canny_sigma")
@@ -72,6 +75,7 @@ class MainWindow(QMainWindow):
             if file_path.endswith('.jpeg') or file_path.endswith('.jpg'):
                 temp_image = cv2.imread(file_path)
                 image = Image(temp_image)
+                print(image.original_image.shape)
 
                 self.input_image_viewer.current_image = image
                 self.output_image_viewer.current_image = image
@@ -118,6 +122,7 @@ class MainWindow(QMainWindow):
             
     def on_detect_circle_clicked(self):
         self.hough.detect_circles()
+        self.controller.update()
     
     def on_detect_line_clicked(self):
         accumulator_threshold = int(self.findChild(QLineEdit, "line_no_of_lines").text())
