@@ -306,7 +306,7 @@ QComboBox::down-arrow {
               <string notr="true">border: none;</string>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="main_page"/>
              <widget class="QWidget" name="canny_page">
@@ -1356,6 +1356,81 @@ font-weight:500;</string>
                 </layout>
                </item>
                <item>
+                <layout class="QVBoxLayout" name="verticalLayout_31">
+                 <item>
+                  <widget class="QLabel" name="label_27">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string>Window Size:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="window_size">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QSpinBox {
+    background-color: #edf6f9;
+    color: #000000;
+    border: 2px solid #006d77;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+QSpinBox:focus {
+    border: 2px solid #83c5be;
+    background-color: #ffffff;
+}
+
+/* Optional: Style the internal QLineEdit within the QSpinBox (for extra control) */
+QSpinBox QLineEdit {
+    background-color: transparent; /* Inherit from parent */
+    border: none;
+    padding: 0;
+}
+
+/* Optional: Remove or style the arrows */
+QSpinBox::up-button, QSpinBox::down-button {
+    subcontrol-origin: border;
+    width: 16px;
+    background-color: #006d77;
+    border: none;
+    border-radius: 3px;
+}
+
+QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+    background-color: #83c5be;
+}
+
+ QSpinBox::down-arrow {
+    width: 8px;
+    height: 8px;
+	image: url(icons_setup/icons/down.png);
+}
+
+QSpinBox::up-arrow{
+width: 8px;
+    height: 8px;
+	image: url(icons_setup/icons/up.png);
+}
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
                 <layout class="QVBoxLayout" name="verticalLayout_24">
                  <property name="topMargin">
                   <number>30</number>
@@ -1596,7 +1671,7 @@ border-radius: 10px;</string>
              <property name="styleSheet">
               <string notr="true">background-color: #006d77;
 color:#edf6f9;
-font-size: 18px;
+font-size: 16px;
 font-weight:500;
 border: None;</string>
              </property>
@@ -1649,7 +1724,7 @@ border: None;</string>
              <property name="styleSheet">
               <string notr="true">background-color: #006d77;
 color:#edf6f9;
-font-size: 18px;
+font-size: 16px;
 font-weight:500;
 border: None;</string>
              </property>
@@ -1702,7 +1777,7 @@ border: None;</string>
              <property name="styleSheet">
               <string notr="true">background-color: #006d77;
 color:#edf6f9;
-font-size: 18px;
+font-size: 16px;
 font-weight:500;
 border: None;</string>
              </property>
@@ -1727,6 +1802,59 @@ border: None;</string>
            </item>
            <item>
             <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_25">
+             <property name="minimumSize">
+              <size>
+               <width>160</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;
+border:None;</string>
+             </property>
+             <property name="text">
+              <string>Current Iteration:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="current_iteration">
+             <property name="styleSheet">
+              <string notr="true">background-color: #006d77;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;
+border: None;</string>
+             </property>
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_7">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
