@@ -56,7 +56,7 @@ class ActiveContour:
         return self.alpha * elastic_energy + self.beta * smoothness_energy
 
     def evolve_step(self):
-        # single iteration each 100 ms 
+        # single iteration each 100 ms
         if not self.flag_continue:
             print("Evolution paused.")
             return  # if paused return
@@ -97,6 +97,7 @@ class ActiveContour:
         self.current_iteration += 1
 
         print(f"tteration {self.current_iteration} completed.")
+
 
         if self.current_iteration >= self.max_iterations:
             print("contour evolution finished.")

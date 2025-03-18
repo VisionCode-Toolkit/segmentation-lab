@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
 
         # apply timer to manage pause event :
         self.timer = QTimer()
-        self.timer.timeout.connect(self.active_contour_model.evolve_step)
+        self.timer.timeout.connect(self.evolvong_With_drawing)
 
     def browse_image(self):
         print("pushed")
@@ -186,6 +186,12 @@ class MainWindow(QMainWindow):
         self.output_image_viewer.current_image.reset()
         self.intialize_snake_model.update_setup()
         self.check_enable_drawing()
+        self.controller.update()
+
+
+    def evolvong_With_drawing(self):
+        self.active_contour_model.evolve_step()
+        self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
         self.controller.update()
 
     def apply_snake(self):
