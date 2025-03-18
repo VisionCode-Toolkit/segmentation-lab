@@ -59,6 +59,7 @@ class ActiveContour:
         if self.contour is None:
             raise ValueError("Contour not initialized! Call set_contour() first.")
 
+
         grad_x, grad_y = self.compute_gradient()
         gvf_x, gvf_y = self.compute_gvf(grad_x, grad_y)
         external_energy = self.compute_external_energy(gvf_x, gvf_y)
@@ -93,6 +94,7 @@ class ActiveContour:
             print(f"Iteration {iteration + 1} completed.")
 
         print("Contour evolution finished.")
+        print(f"n of iterations {self.max_iterations}, alpha is {self.alpha}, beta is {self.beta}, gamma is {self.gamma}")
 
     def compute_chain_code(self) -> list:
         """

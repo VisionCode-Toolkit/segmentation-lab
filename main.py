@@ -68,10 +68,21 @@ class MainWindow(QMainWindow):
 
         self.statistics_widget = self.findChild(QWidget, "statistics_widget")
         self.statistics_widget.hide()
-
+        # apply snake Model
         self.apply_snake_model_button = self.findChild(QPushButton, "snake_apply_button")
         self.apply_snake_model_button.clicked.connect(self.apply_snake)
+        # set snake model _ parameters
+        self.set_aplha_model_label = self.findChild(QLineEdit, "snake_alpha")
+        self.set_aplha_model_label.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_aplha_model_label.text(), "alpha"))
 
+        self.set_gamma_model_label = self.findChild(QLineEdit, "snake_gamma")
+        self.set_gamma_model_label.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_gamma_model_label.text(), "gamma"))
+
+        self.set_beta_model_label = self.findChild(QLineEdit, "snake_beta")
+        self.set_beta_model_label.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_beta_model_label.text(), "beta"))
+
+        self.set_num_of_iterations = self.findChild(QLineEdit, "snake_no_of_iterations")
+        self.set_num_of_iterations.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_num_of_iterations.text(), "iteration"))
 
     def browse_image(self):
         print("pushed")
@@ -160,10 +171,22 @@ class MainWindow(QMainWindow):
     def apply_snake(self):
         print("apply snake")
         self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
-
         self.active_contour_model.flag_continue = True
         self.active_contour_model.evolve_contour()
         self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
+        self.controller.update()
+
+    def apply_snake_parameters(self, value, parameter_Type):
+        if parameter_Type == "iteration" :
+            self.active_contour_model.max_iterations = int(value)
+        elif parameter_Type == "alpha" :
+            self.active_contour_model.alpha = float(value)
+        elif parameter_Type == "gamma" :
+            self.active_contour_model.gamma = float(value)
+        elif parameter_Type == "beta" :
+            self.active_contour_model.beta = float(value)
+        else :
+            self.active_contour_model.window_size = int(value)
         self.controller.update()
 
 
