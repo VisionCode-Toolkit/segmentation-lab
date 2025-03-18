@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from scipy.signal import correlate2d
 from scipy.interpolate import splprep, splev
-from skimage.morphology import skeletonize
+# from skimage.morphology import skeletonize
 
 
 from classes.filter import Filters
