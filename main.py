@@ -113,6 +113,7 @@ class MainWindow(QMainWindow):
             self.intialize_snake_model.drawing = False
         if text == Modes.SNAKE.value:
             self.intialize_snake_model.drawing = True
+
         else:
             print("iam in the false")
             self.intialize_snake_model.drawing = False
