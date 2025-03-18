@@ -69,6 +69,9 @@ class MainWindow(QMainWindow):
         self.statistics_widget = self.findChild(QWidget, "statistics_widget")
         self.statistics_widget.hide()
 
+        self.apply_snake_model_button = self.findChild(QPushButton, "snake_apply_button")
+        self.apply_snake_model_button.clicked.connect(self.apply_snake)
+
 
     def browse_image(self):
         print("pushed")
@@ -90,7 +93,7 @@ class MainWindow(QMainWindow):
                 else:
                     self.intialize_snake_model.drawing = False
 # passing by reference
-                self.active_contour_model.set_image(self.output_image_viewer.current_image)
+                self.active_contour_model.set_image(self.output_image_viewer.current_image.original_image)
                 self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
 
                 # update
@@ -149,7 +152,21 @@ class MainWindow(QMainWindow):
         
     def on_reset_button_clicked(self):
         self.output_image_viewer.current_image.reset()
+        self.intialize_snake_model.contour_points = []
+        self.intialize_snake_model.clear_contour()
+        self.intialize_snake_model.drawing = True
         self.controller.update()
+
+    def apply_snake(self):
+        print("apply snake")
+        self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
+
+        self.active_contour_model.flag_continue = True
+        self.active_contour_model.evolve_contour()
+        self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
+        self.controller.update()
+
+
 
 
     
