@@ -14,6 +14,7 @@ from classes.imageViewer import ImageViewer
 from enums.viewerType import ViewerType
 from classes.controller import Controller
 from classes.cannyDetector import Canny_detector
+from PyQt5.QtGui import QPalette, QColor
 
 from enums.modes import Modes
 from classes.snake import ActiveContour
