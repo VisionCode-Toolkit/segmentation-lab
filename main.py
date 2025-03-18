@@ -227,7 +227,7 @@ class MainWindow(QMainWindow):
             self.timer.start(100)
 
 
-        else :
+        else:
             self.active_contour_model.flag_continue = False
             self.apply_snake_model_button.setIcon(self.apply_icon)
             self.apply_snake_model_button.setText("Play")
