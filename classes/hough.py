@@ -127,6 +127,7 @@ class Hough():
                 continue
         ellipses = []
         self.__output_viewer.current_image.shapes_list.clear()
+        # accumulator = self.non_max_on_dict(accumulator, kernel_size=10)
         sorted_ellipses = sorted(accumulator.items(), key = lambda x:x[1], reverse=True)
         for parameters, votes in sorted_ellipses:
             if votes < min_votes:
@@ -135,6 +136,22 @@ class Hough():
             ellipse_element = Ellipse(x_center, y_center, a, b, np.radians(angle))
             self.__output_viewer.current_image.shapes_list.append(ellipse_element)
             ellipses.append(parameters)
+            
+    def non_max_on_dict(self, dictionary:dict, kernel_size):
+        key_set = set()
+        for key, item in dictionary.items():
+            for x_c in range(kernel_size):
+                for y_c in range(kernel_size):
+                    for a in range(kernel_size):
+                        for b in range(kernel_size):
+                            for theta in range(kernel_size):
+                                new_key = (key[0] + x_c,key[1] + y_c, key[2]+a, key[3]+b, key[4]+theta)
+                                if new_key in dictionary:
+                                    if dictionary[new_key] > dictionary[key]:
+                                        key_set.add(key)
+        for key in key_set:
+            dictionary.pop(key, None)
+        return dictionary
             
     # def fit_ellipse(points, max_trials = 100, residual_threshold = 2.0):
     #     model = EllipseModel()
@@ -148,39 +165,18 @@ class Hough():
     #     return (x_c, y_c), (a, b), np.rad2deg(theta)
     
     def fit_ellipse(self, points):
-        """
-        Fits an ellipse to a set of 2D points using least squares fitting.
-        
-        Parameters:
-            points: (N,2) numpy array of (x,y) points.
-
-        Returns:
-            (center_x, center_y, major_axis, minor_axis, angle) of the fitted ellipse.
-        """
         if len(points) < 5:
             raise ValueError("At least 5 points are required to fit an ellipse.")
-
-        # Construct the design matrix D
         x, y = points[:, 0], points[:, 1]
         D = np.column_stack((x**2, x * y, y**2, x, y, np.ones_like(x)))
-
-        # Solve using SVD to minimize least squares
         _, _, V = np.linalg.svd(D)
-        A, B, C, D, E, F = V[-1, :]  # Last row is the solution
-
-        # Compute ellipse center
+        A, B, C, D, E, F = V[-1, :]
         x0 = (C * D - B * E) / (B**2 - A * C)
         y0 = (A * E - B * D) / (B**2 - A * C)
-
-        # Compute ellipse axes lengths
         num = 2 * (A * E**2 + C * D**2 + F * B**2 - 2 * B * D * E - A * C * F)
         denom1 = (B**2 - A * C) * ((C - A) + np.sqrt((A - C)**2 + 4 * B**2))
         denom2 = (B**2 - A * C) * ((A - C) + np.sqrt((A - C)**2 + 4 * B**2))
-
         major_axis = np.sqrt(num / denom1)
         minor_axis = np.sqrt(num / denom2)
-
-        # Compute ellipse rotation angle
         theta = 0.5 * np.arctan2(2 * B, A - C)
-
         return (x0, y0), (major_axis, minor_axis) , np.rad2deg(theta)

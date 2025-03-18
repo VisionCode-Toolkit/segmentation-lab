@@ -306,7 +306,7 @@ QComboBox::down-arrow {
               <string notr="true">border: none;</string>
              </property>
              <property name="currentIndex">
-              <number>5</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="main_page"/>
              <widget class="QWidget" name="canny_page">
@@ -592,7 +592,7 @@ font-weight:500;</string>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>150</width>
+                     <width>250</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -603,7 +603,7 @@ font-size: 16px;
 font-weight:500;</string>
                    </property>
                    <property name="text">
-                    <string>No. of Lines:</string>
+                    <string>Accumulator threshold</string>
                    </property>
                   </widget>
                  </item>
@@ -638,10 +638,10 @@ font-weight:500;</string>
 </string>
                    </property>
                    <property name="text">
-                    <string/>
+                    <string>90</string>
                    </property>
                    <property name="placeholderText">
-                    <string>Ex: 1</string>
+                    <string>Ex: 90</string>
                    </property>
                   </widget>
                  </item>
@@ -697,6 +697,9 @@ font-weight:500;</string>
         background-color: #ffffff;
     }
 </string>
+                   </property>
+                   <property name="text">
+                    <string>50</string>
                    </property>
                    <property name="placeholderText">
                     <string/>
@@ -755,6 +758,9 @@ font-weight:500;</string>
         background-color: #ffffff;
     }
 </string>
+                   </property>
+                   <property name="text">
+                    <string>150</string>
                    </property>
                   </widget>
                  </item>
