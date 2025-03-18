@@ -68,9 +68,16 @@ class MainWindow(QMainWindow):
 
         self.statistics_widget = self.findChild(QWidget, "statistics_widget")
         self.statistics_widget.hide()
+
         # apply snake Model
+        self.apply_icon = QIcon("icons_setup/icons/play-button-arrowhead.png")
+        self.pause_icon = QIcon("icons_setup/icons/pause.png")
+        self.is_apply_icon = True
+
         self.apply_snake_model_button = self.findChild(QPushButton, "snake_apply_button")
         self.apply_snake_model_button.clicked.connect(self.apply_snake)
+
+
         # set snake model _ parameters
         self.set_aplha_model_label = self.findChild(QLineEdit, "snake_alpha")
         self.set_aplha_model_label.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_aplha_model_label.text(), "alpha"))
@@ -170,10 +177,18 @@ class MainWindow(QMainWindow):
 
     def apply_snake(self):
         print("apply snake")
-        self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
-        self.active_contour_model.flag_continue = True
-        self.active_contour_model.evolve_contour()
-        self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
+        if self.is_apply_icon :
+            self.apply_snake_model_button.setIcon(self.pause_icon)
+            self.is_apply_icon = False
+            self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
+            self.active_contour_model.flag_continue = True
+            self.active_contour_model.evolve_contour()
+            self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
+        else :
+            self.active_contour_model.flag_continue = False
+            self.apply_snake_model_button.setIcon(self.apply_icon)
+            self.is_apply_icon = True
+        self.apply_snake_model_button.repaint()
         self.controller.update()
 
     def apply_snake_parameters(self, value, parameter_Type):

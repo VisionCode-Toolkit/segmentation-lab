@@ -6,17 +6,17 @@ from scipy.ndimage import gaussian_filter, sobel
 
 class ActiveContour:
     def __init__(self, alpha=2, beta=1, gamma=5, max_iterations=300, window_size=9, sigma=2, mu=0.1, gvf_iterations=80):
-        self.alpha = alpha  # Elasticity term
-        self.beta = beta  # Smoothness term
-        self.gamma = gamma  # Weight of external energy
-        self.mu = float(mu)  # GVF regularization parameter
-        self.gvf_iterations = gvf_iterations  # Number of GVF iterations
+        self.alpha = alpha  # elastic
+        self.beta = beta   # smooth
+        self.gamma = gamma  # external energy
+        self.mu = float(mu)  # gvf parameter
+        self.gvf_iterations = gvf_iterations  # gvf iterations
         self.max_iterations = max_iterations
-        self.window_size = window_size  # Size of search window
-        self.sigma = sigma  # Gaussian smoothing parameter
+        self.window_size = window_size
+        self.sigma = sigma  # for blurring
         self.image = None
         self.contour = None
-        self.flag_continue = False  # Flag to pause/resume evolution
+        self.flag_continue = False  # flag to resume
 
     def set_image(self, image):
 
@@ -55,46 +55,45 @@ class ActiveContour:
         return self.alpha * elastic_energy + self.beta * smoothness_energy
 
     def evolve_contour(self):
-        print("Starting contour evolution...")
-        if self.contour is None:
-            raise ValueError("Contour not initialized! Call set_contour() first.")
 
+        if self.image and self.contour :
+            print("starting contour evolution...")
 
-        grad_x, grad_y = self.compute_gradient()
-        gvf_x, gvf_y = self.compute_gvf(grad_x, grad_y)
-        external_energy = self.compute_external_energy(gvf_x, gvf_y)
-        half_win = self.window_size // 2
+            grad_x, grad_y = self.compute_gradient()
+            gvf_x, gvf_y = self.compute_gvf(grad_x, grad_y)
+            external_energy = self.compute_external_energy(gvf_x, gvf_y)
+            half_win = self.window_size // 2
 
-        for iteration in range(self.max_iterations):
-            if not self.flag_continue:
-                print(f"Evolution paused at iteration {iteration}")
-                break
+            for iteration in range(self.max_iterations):
+                if not self.flag_continue:
+                    print(f"Evolution paused at iteration {iteration}")
+                    break
 
-            new_contour = np.copy(self.contour)
-            internal_energy = self.compute_internal_energy(self.contour)
+                new_contour = np.copy(self.contour)
+                internal_energy = self.compute_internal_energy(self.contour)
 
-            for i, (x, y) in enumerate(self.contour):
-                x, y = int(x), int(y)
-                search_window = [(x + dx, y + dy) for dx in range(-half_win, half_win + 1)
-                                 for dy in range(-half_win, half_win + 1)
-                                 if 0 <= x + dx < self.image.shape[1] and 0 <= y + dy < self.image.shape[0]]
+                for i, (x, y) in enumerate(self.contour):
+                    x, y = int(x), int(y)
+                    search_window = [(x + dx, y + dy) for dx in range(-half_win, half_win + 1)
+                                     for dy in range(-half_win, half_win + 1)
+                                     if 0 <= x + dx < self.image.shape[1] and 0 <= y + dy < self.image.shape[0]]
 
-                energies = []
-                for nx, ny in search_window:
-                    candidate_contour = np.copy(new_contour)
-                    candidate_contour[i] = [nx, ny]
-                    total_energy = (np.sum(self.compute_internal_energy(candidate_contour)) +
-                                    self.gamma * external_energy[int(ny), int(nx)])
-                    energies.append(total_energy)
+                    energies = []
+                    for nx, ny in search_window:
+                        candidate_contour = np.copy(new_contour)
+                        candidate_contour[i] = [nx, ny]
+                        total_energy = (np.sum(self.compute_internal_energy(candidate_contour)) +
+                                        self.gamma * external_energy[int(ny), int(nx)])
+                        energies.append(total_energy)
 
-                min_idx = np.argmin(energies)
-                new_contour[i] = search_window[min_idx]
+                    min_idx = np.argmin(energies)
+                    new_contour[i] = search_window[min_idx]
 
-            self.contour = new_contour
-            print(f"Iteration {iteration + 1} completed.")
+                self.contour = new_contour
+                print(f"Iteration {iteration + 1} completed.")
 
-        print("Contour evolution finished.")
-        print(f"n of iterations {self.max_iterations}, alpha is {self.alpha}, beta is {self.beta}, gamma is {self.gamma}")
+            print("Contour evolution finished.")
+            print(f"n of iterations {self.max_iterations}, alpha is {self.alpha}, beta is {self.beta}, gamma is {self.gamma}")
 
     def compute_chain_code(self) -> list:
         """
