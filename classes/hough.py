@@ -1,8 +1,12 @@
+from scipy.ndimage import maximum_filter
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt 
 from classes.line import Line
 from classes.circle import Circle
+from classes.ellipse import Ellipse
+from skimage.measure import ransac, EllipseModel
+
 class Hough():
     def __init__(self, output_viewer):
         self.__output_viewer = output_viewer
@@ -36,16 +40,15 @@ class Hough():
         circles = []
         threshold = accumulator_threshold
         self.__output_viewer.current_image.shapes_list.clear()
-        for r_idx, radius in enumerate(radius_range):
-            from scipy.ndimage import maximum_filter
-            local_max = maximum_filter(accumulator[:,:,r_idx], size=5)
-            detected_peaks = (accumulator[:,:,r_idx] == local_max) & (accumulator[:,:,r_idx] > threshold)
-            y_peaks, x_peaks = np.where(detected_peaks)
-            for i in range(len(x_peaks)):
-                x_center = x_peaks[i] * scale_factor
-                y_center = y_peaks[i] * scale_factor
-                self.__output_viewer.current_image.shapes_list.append(Circle(x_center/scale, y_center/scale, radius/scale))
-                circles.append([x_center/scale, y_center/scale, radius/scale])
+        max_filtered = maximum_filter(accumulator, size=10, mode='constant')
+        detected_peaks = (accumulator == max_filtered) & (accumulator > accumulator_threshold)
+        peak_indices = np.argwhere(detected_peaks)
+        for y_idx, x_idx, r_idx in peak_indices:
+            x_center = x_idx * scale_factor
+            y_center = y_idx * scale_factor
+            radius = radius_range[r_idx]
+            self.__output_viewer.current_image.shapes_list.append(Circle(x_center, y_center, radius))
+            circles.append([x_center, y_center, radius])
         print(circles)
         return circles
         
@@ -70,7 +73,8 @@ class Hough():
                 rho = int(x * np.cos(theta) + y * np.sin(theta))
                 rho_idx = np.argmin(np.abs(rho_range - rho)) # Find closest rho value index
                 accumulator[rho_idx, theta_idx] += 1
-        line_indices = np.argwhere(accumulator > accumulator_threshold)
+        suppressed_accumulator = maximum_filter(accumulator, size = 20, mode='constant')
+        line_indices = np.argwhere((accumulator == suppressed_accumulator) & (accumulator > accumulator_threshold))
         # Convert indices back to actual rho and theta values
         lines = []
         self.__output_viewer.current_image.shapes_list.clear()
@@ -85,5 +89,98 @@ class Hough():
         print(lines)
         return lines  # Return the actual lines
     
-    def detect_ellipse(self):
-        pass
+    def detect_ellipse(self, num_of_iterations = 90000*4, seed = 60, min_votes = 2): #here we will implement the randomized hough transform 
+        self.__output_viewer.current_image.transfer_to_gray_scale()
+        image = self.__output_viewer.current_image.modified_image
+        height, width = image.shape
+        edges = cv2.Canny(image, 50,150)
+        y_indices, x_indices = np.where(edges > 0)
+        edge_points = np.column_stack((x_indices, y_indices))
+        if len(edge_points) < 5:
+            return
+        # num_of_iterations = min(num_of_iterations, len(edge_points) *5)
+        max_axis = max(width, height) // 2
+        min_axis = 10
+        accumulator = {}
+        np.random.seed(seed)
+        for _ in range(num_of_iterations):
+            points = np.random.choice(len(edge_points), 5, replace=False)
+            sample_points = edge_points[points]
+            try:
+                ellipse = cv2.fitEllipse(sample_points)
+                (x_center, y_center), (width_e, height_e), angle = ellipse
+                if width_e < min_axis or width_e > max_axis or height < min_axis or height_e > max_axis:
+                    continue
+                a = width_e / 2
+                b = height_e / 2
+                x_center_bin = int(x_center)
+                y_center_bin = int(y_center)
+                a_bin = int(a)
+                b_bin = int(b)
+                angle_bin = int(angle/5)*5
+                parameters = (x_center_bin, y_center_bin, a_bin, b_bin, angle_bin)
+                if parameters in accumulator:
+                    accumulator[parameters] += 1
+                else:
+                    accumulator[parameters] = 1
+            except Exception as e:
+                continue
+        ellipses = []
+        self.__output_viewer.current_image.shapes_list.clear()
+        sorted_ellipses = sorted(accumulator.items(), key = lambda x:x[1], reverse=True)
+        for parameters, votes in sorted_ellipses:
+            if votes < min_votes:
+                break
+            x_center, y_center, a, b, angle = parameters
+            ellipse_element = Ellipse(x_center, y_center, a, b, np.radians(angle))
+            self.__output_viewer.current_image.shapes_list.append(ellipse_element)
+            ellipses.append(parameters)
+            
+    # def fit_ellipse(points, max_trials = 100, residual_threshold = 2.0):
+    #     model = EllipseModel()
+    #     inliers = None
+    #     try:
+    #         model.estimate(points)
+    #         inliers = model.predict_xy(points)
+    #     except:
+    #         pass
+    #     x_c, y_c, a, b, theta = model.params
+    #     return (x_c, y_c), (a, b), np.rad2deg(theta)
+    
+    def fit_ellipse(self, points):
+        """
+        Fits an ellipse to a set of 2D points using least squares fitting.
+        
+        Parameters:
+            points: (N,2) numpy array of (x,y) points.
+
+        Returns:
+            (center_x, center_y, major_axis, minor_axis, angle) of the fitted ellipse.
+        """
+        if len(points) < 5:
+            raise ValueError("At least 5 points are required to fit an ellipse.")
+
+        # Construct the design matrix D
+        x, y = points[:, 0], points[:, 1]
+        D = np.column_stack((x**2, x * y, y**2, x, y, np.ones_like(x)))
+
+        # Solve using SVD to minimize least squares
+        _, _, V = np.linalg.svd(D)
+        A, B, C, D, E, F = V[-1, :]  # Last row is the solution
+
+        # Compute ellipse center
+        x0 = (C * D - B * E) / (B**2 - A * C)
+        y0 = (A * E - B * D) / (B**2 - A * C)
+
+        # Compute ellipse axes lengths
+        num = 2 * (A * E**2 + C * D**2 + F * B**2 - 2 * B * D * E - A * C * F)
+        denom1 = (B**2 - A * C) * ((C - A) + np.sqrt((A - C)**2 + 4 * B**2))
+        denom2 = (B**2 - A * C) * ((A - C) + np.sqrt((A - C)**2 + 4 * B**2))
+
+        major_axis = np.sqrt(num / denom1)
+        minor_axis = np.sqrt(num / denom2)
+
+        # Compute ellipse rotation angle
+        theta = 0.5 * np.arctan2(2 * B, A - C)
+
+        return (x0, y0), (major_axis, minor_axis) , np.rad2deg(theta)
