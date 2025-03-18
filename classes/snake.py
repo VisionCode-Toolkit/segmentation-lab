@@ -129,7 +129,7 @@ class ActiveContour:
         :return: List of chain code directions.
         : habiba you will need an intial contour to work with i will provide you wil generting contours function so you can check on it 
         """
-        self.set_contour()
+        # self.set_contour()
 
         if self.contour is None:
             raise ValueError("contour not initialized! Call initialize_contour() first.")
@@ -168,7 +168,7 @@ class ActiveContour:
         :return: Perimeter value.
         : habiba you will need an intial contour to work with i will provide you wil generting contours function so you can check on it 
         """
-        self.set_contour()
+        # self.set_contour()
 
         if self.contour is None:
             raise ValueError("contour not initialized! Call initialize_contour() first.")
@@ -187,7 +187,7 @@ class ActiveContour:
         : habiba you will need an intial contour to work with i will provide you wil generting contours function so you can check on it 
         :return: Area value.
         """
-        self.set_contour()
+        # self.set_contour()
         if self.contour is None:
             raise ValueError("contour not initialized! Call initialize_contour() first.")
 

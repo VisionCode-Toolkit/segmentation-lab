@@ -93,6 +93,10 @@ class MainWindow(QMainWindow):
         self.set_num_of_iterations = self.findChild(QLineEdit, "snake_no_of_iterations")
         self.set_num_of_iterations.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_num_of_iterations.text(), "iteration"))
 
+        self.chain_code = self.findChild(QLabel, "chain_code")
+        self.perimeter_of_contour = self.findChild(QLabel, "perimeter_of_contour")
+        self.area_of_contour = self.findChild(QLabel, "area_of_contour")
+
         # apply timer to manage pause event :
         self.timer = QTimer()
         self.timer.timeout.connect(self.evolvong_With_drawing)
@@ -195,21 +199,34 @@ class MainWindow(QMainWindow):
         self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
         self.controller.update()
 
+    def show_statistics(self):
+        chain_code = self.active_contour_model.compute_chain_code()
+        self.chain_code.setText(chain_code)
+
+        perimeter = self.active_contour_model.compute_perimeter()
+        self.perimeter_of_contour.setText(perimeter)
+
+        area = self.active_contour_model.compute_area()
+        self.area_of_contour.setText(area)
+
     def apply_snake(self):
         print("apply snake")
         if self.is_apply_icon :
             self.apply_snake_model_button.setIcon(self.pause_icon)
+            self.apply_snake_model_button.setText("Pause")
             self.is_apply_icon = False
             self.apply_snake_model_button.repaint()
             self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
             self.active_contour_model.flag_continue = True
 
-
             self.active_contour_model.flag_continue = True
             self.timer.start(100)
+
+
         else :
             self.active_contour_model.flag_continue = False
             self.apply_snake_model_button.setIcon(self.apply_icon)
+            self.apply_snake_model_button.setText("Play")
             self.is_apply_icon = True
             self.apply_snake_model_button.repaint()
             self.timer.stop()
