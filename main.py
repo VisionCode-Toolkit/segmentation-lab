@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QFrame, QVBoxLayo
     QStackedWidget, QWidget, QFileDialog, QRadioButton, QDialog, QLineEdit, QHBoxLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from helper_functions.compile_qrc import compile_qrc
 from icons_setup.compiledIcons import *
 import cv2
@@ -19,6 +19,8 @@ from enums.modes import Modes
 from classes.snake import ActiveContour
 from classes.cannyDetector import Canny_detector
 from classes.hough import Hough
+
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -91,6 +93,10 @@ class MainWindow(QMainWindow):
         self.set_num_of_iterations = self.findChild(QLineEdit, "snake_no_of_iterations")
         self.set_num_of_iterations.returnPressed.connect(lambda: self.apply_snake_parameters(self.set_num_of_iterations.text(), "iteration"))
 
+        # apply timer to manage pause event :
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.active_contour_model.evolve_step)
+
     def browse_image(self):
         print("pushed")
         file_path, _ = QFileDialog.getOpenFileName(self, 'Open Image File', '', 'Image Files (*.jpeg *.jpg *.png *.bmp *.gif);;All Files (*)')
@@ -104,18 +110,26 @@ class MainWindow(QMainWindow):
                 self.input_image_viewer.current_image = image
                 self.output_image_viewer.current_image = image
 
-                self.intialize_snake_model.update_browse_setup()
-                text = self.mode_combobox.currentText()
-                if text == Modes.SNAKE.value:
-                    self.intialize_snake_model.drawing = True
-                else:
-                    self.intialize_snake_model.drawing = False
+                self.intialize_snake_model.update_setup()
+                self.check_enable_drawing()
+
+
 # passing by reference
                 self.active_contour_model.set_image(self.output_image_viewer.current_image.original_image)
                 self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
 
                 # update
                 self.controller.update()
+
+
+    def check_enable_drawing(self):
+        text = self.mode_combobox.currentText()
+        if text == Modes.SNAKE.value:
+            self.intialize_snake_model.drawing = True
+            self.active_contour_model.current_iteration = 0
+        else:
+            self.intialize_snake_model.drawing = False
+
 
     def on_choose_mode_value_changed(self):
         text = self.mode_combobox.currentText()
@@ -170,9 +184,8 @@ class MainWindow(QMainWindow):
         
     def on_reset_button_clicked(self):
         self.output_image_viewer.current_image.reset()
-        self.intialize_snake_model.contour_points = []
-        self.intialize_snake_model.clear_contour()
-        self.intialize_snake_model.drawing = True
+        self.intialize_snake_model.update_setup()
+        self.check_enable_drawing()
         self.controller.update()
 
     def apply_snake(self):
@@ -180,15 +193,21 @@ class MainWindow(QMainWindow):
         if self.is_apply_icon :
             self.apply_snake_model_button.setIcon(self.pause_icon)
             self.is_apply_icon = False
+            self.apply_snake_model_button.repaint()
             self.active_contour_model.set_contour(self.intialize_snake_model.contour_points)
             self.active_contour_model.flag_continue = True
-            self.active_contour_model.evolve_contour()
-            self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
+
+
+            self.active_contour_model.flag_continue = True
+            self.timer.start(100)
         else :
             self.active_contour_model.flag_continue = False
             self.apply_snake_model_button.setIcon(self.apply_icon)
             self.is_apply_icon = True
-        self.apply_snake_model_button.repaint()
+            self.apply_snake_model_button.repaint()
+            self.timer.stop()
+
+        self.intialize_snake_model.contour_points = list(self.active_contour_model.contour)
         self.controller.update()
 
     def apply_snake_parameters(self, value, parameter_Type):

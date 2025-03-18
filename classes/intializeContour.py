@@ -87,7 +87,7 @@ class IntializeContour():
         if self.check_close_contour == True:
             self.clear_contour()
             self.fill_contour()
-    def update_browse_setup(self):
+    def update_setup(self):
         self.contour_points = []
         self.clear_contour()
         self.check_close_contour = False

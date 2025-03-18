@@ -17,6 +17,7 @@ class ActiveContour:
         self.image = None
         self.contour = None
         self.flag_continue = False  # flag to resume
+        self.current_iteration = 0
 
     def set_image(self, image):
 
@@ -54,46 +55,52 @@ class ActiveContour:
         smoothness_energy = np.linalg.norm(diff2, axis=1) ** 2
         return self.alpha * elastic_energy + self.beta * smoothness_energy
 
-    def evolve_contour(self):
+    def evolve_step(self):
+        # single iteration each 100 ms 
+        if not self.flag_continue:
+            print("Evolution paused.")
+            return  # if paused return
 
-        if self.image and self.contour :
-            print("starting contour evolution...")
+        if self.current_iteration >= self.max_iterations:
+            print("Contour evolution completed.")
+            self.flag_continue = False
+            return
 
-            grad_x, grad_y = self.compute_gradient()
-            gvf_x, gvf_y = self.compute_gvf(grad_x, grad_y)
-            external_energy = self.compute_external_energy(gvf_x, gvf_y)
-            half_win = self.window_size // 2
+        print(f"Iteration {self.current_iteration + 1} started.")
 
-            for iteration in range(self.max_iterations):
-                if not self.flag_continue:
-                    print(f"Evolution paused at iteration {iteration}")
-                    break
+        grad_x, grad_y = self.compute_gradient()
+        gvf_x, gvf_y = self.compute_gvf(grad_x, grad_y)
+        external_energy = self.compute_external_energy(gvf_x, gvf_y)
+        half_win = self.window_size // 2
 
-                new_contour = np.copy(self.contour)
-                internal_energy = self.compute_internal_energy(self.contour)
+        new_contour = np.copy(self.contour)
+        internal_energy = self.compute_internal_energy(self.contour)
 
-                for i, (x, y) in enumerate(self.contour):
-                    x, y = int(x), int(y)
-                    search_window = [(x + dx, y + dy) for dx in range(-half_win, half_win + 1)
-                                     for dy in range(-half_win, half_win + 1)
-                                     if 0 <= x + dx < self.image.shape[1] and 0 <= y + dy < self.image.shape[0]]
+        for i, (x, y) in enumerate(self.contour):
+            x, y = int(x), int(y)
+            search_window = [(x + dx, y + dy) for dx in range(-half_win, half_win + 1)
+                             for dy in range(-half_win, half_win + 1)
+                             if 0 <= x + dx < self.image.shape[1] and 0 <= y + dy < self.image.shape[0]]
 
-                    energies = []
-                    for nx, ny in search_window:
-                        candidate_contour = np.copy(new_contour)
-                        candidate_contour[i] = [nx, ny]
-                        total_energy = (np.sum(self.compute_internal_energy(candidate_contour)) +
-                                        self.gamma * external_energy[int(ny), int(nx)])
-                        energies.append(total_energy)
+            energies = []
+            for nx, ny in search_window:
+                candidate_contour = np.copy(new_contour)
+                candidate_contour[i] = [nx, ny]
+                total_energy = (np.sum(self.compute_internal_energy(candidate_contour)) +
+                                self.gamma * external_energy[int(ny), int(nx)])
+                energies.append(total_energy)
 
-                    min_idx = np.argmin(energies)
-                    new_contour[i] = search_window[min_idx]
+            min_idx = np.argmin(energies)
+            new_contour[i] = search_window[min_idx]
 
-                self.contour = new_contour
-                print(f"Iteration {iteration + 1} completed.")
+        self.contour = new_contour
+        self.current_iteration += 1
 
-            print("Contour evolution finished.")
-            print(f"n of iterations {self.max_iterations}, alpha is {self.alpha}, beta is {self.beta}, gamma is {self.gamma}")
+        print(f"tteration {self.current_iteration} completed.")
+
+        if self.current_iteration >= self.max_iterations:
+            print("contour evolution finished.")
+            self.flag_continue = False
 
     def compute_chain_code(self) -> list:
         """
