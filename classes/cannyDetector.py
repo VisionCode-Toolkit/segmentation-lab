@@ -25,6 +25,7 @@ class Canny_detector():
             # filter the img
             self.output_image_viewer.current_image.modified_image = self.filter.apply_filters(sigma, kernel_size)
             # obtain total change (gradient) and theta
+            # total_gradient, theta = self.calculate_gradient()
             total_gradient, theta = self.calculate_gradient()
 
             # # obtain resultant image from nms
@@ -34,7 +35,7 @@ class Canny_detector():
             thresholded_img = self.double_thresholding(resultant_img, low_thresh, high_tresh)
             final_output = self.apply_hysteresis(thresholded_img)
             # final_output = self.apply_morphological_operations(final_output, kernel_size=3)
-            final_output = self.thin_edges(final_output)
+            # final_output = self.thin_edges(final_output)
             self.output_image_viewer.current_image.modified_image = final_output
 
     def kernels_for_gradient(self):
@@ -52,35 +53,63 @@ class Canny_detector():
         )
         return kernel_x, kernel_y
 
-    @staticmethod
-    def scale(val):
-        #for better visualization
-        # (val - min) / (max - min) *255
-        return (val - val.min()) / (val.max() - val.min()) * 255
+    # @staticmethod
+    # def scale(val):
+    #     #for better visualization
+    #     # (val - min) / (max - min) *255
+    #     return (val - val.min()) / (val.max() - val.min()) * 255
+    #
+    #
+    #
+    # def gradient_mag(self, gx, gy):
+    #     mag = np.zeros((gx.shape[0], gy.shape[1]))
+    #     mag = np.sqrt((gx ** 2) + (gy ** 2))
+    #     mag = mag * 100 / mag.max()
+    #     return np.around(mag)
+    #
+    # def calculate_gradient(self):
+    #     kernel_x, kernel_y = self.kernels_for_gradient()
+    #     #correlation from scipy to speed up things a little bit
+    #     # mode = "same" --> to ensure the output has the same size as the input
+    #     # G_X = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_x, mode='same')
+    #     # G_Y = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_y, mode='same')
+    #     G_X = cv2.filter2D(self.output_image_viewer.current_image.modified_image, -1, kernel_x,
+    #                        borderType=cv2.BORDER_CONSTANT)
+    #     G_Y = cv2.filter2D(self.output_image_viewer.current_image.modified_image, -1, kernel_y,
+    #                        borderType=cv2.BORDER_CONSTANT)
+    #     # obtaining mag and theta
+    #     total_change = self.scale(np.hypot(G_X, G_Y))
+    #     theta = np.arctan2(G_X, G_Y)
+    #     return total_change, theta
 
+    def apply_kernels(self, kernel):
+        kernel_height, kernel_width = kernel.shape
+        pad_y, pad_x = kernel_height // 2, kernel_width // 2
 
+        padded_image = np.pad(self.output_image_viewer.current_image.modified_image, ((pad_y, pad_y), (pad_x, pad_x)), mode='reflect')
+        output_img = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
 
-    def gradient_mag(self, gx, gy):
-        mag = np.zeros((gx.shape[0], gy.shape[1]))
-        mag = np.sqrt((gx ** 2) + (gy ** 2))
-        mag = mag * 100 / mag.max()
-        return np.around(mag)
+        for i in range(self.output_image_viewer.current_image.modified_image.shape[0]):
+            for j in range(self.output_image_viewer.current_image.modified_image.shape[1]):
+                region = padded_image[i:i + kernel_height, j:j + kernel_width]
+                output_img[i, j] = np.sum(region * kernel)
 
-
+        return output_img
 
     def calculate_gradient(self):
         kernel_x, kernel_y = self.kernels_for_gradient()
-        #correlation from scipy to speed up things a little bit
-        # mode = "same" --> to ensure the output has the same size as the input
-        # G_X = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_x, mode='same')
-        # G_Y = correlate2d(self.output_image_viewer.current_image.modified_image, kernel_y, mode='same')
-        G_X = cv2.filter2D(self.output_image_viewer.current_image.modified_image, -1, kernel_x,
-                           borderType=cv2.BORDER_CONSTANT)
-        G_Y = cv2.filter2D(self.output_image_viewer.current_image.modified_image, -1, kernel_y,
-                           borderType=cv2.BORDER_CONSTANT)
-        # obtaining mag and theta
-        total_change = self.scale(np.hypot(G_X, G_Y))
-        theta = np.arctan2(G_X, G_Y)
+
+        #convolution of kernels on the img
+        G_X = self.apply_kernels(kernel_x)
+        G_Y = self.apply_kernels(kernel_y)
+
+        # Manhattan instead of euclidean
+        total_change = np.abs(G_X) + np.abs(G_Y)
+        total_change = np.clip(total_change, 0, 255).astype(np.uint8)
+
+        theta = np.arctan2(G_Y, G_X) * (180 / np.pi)
+        theta = (theta + 180) % 180
+
         return total_change, theta
 
 

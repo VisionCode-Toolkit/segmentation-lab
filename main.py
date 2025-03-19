@@ -14,6 +14,7 @@ from classes.imageViewer import ImageViewer
 from enums.viewerType import ViewerType
 from classes.controller import Controller
 from classes.cannyDetector import Canny_detector
+from PyQt5.QtGui import QPalette, QColor
 
 from enums.modes import Modes
 from classes.snake import ActiveContour
@@ -57,6 +58,9 @@ class MainWindow(QMainWindow):
         
         self.circle_apply_button = self.findChild(QPushButton, "circle_apply_button")
         self.circle_apply_button.clicked.connect(self.on_detect_circle_clicked)
+        
+        self.ellipse_apply_button = self.findChild(QPushButton, "ellipse_apply_button")
+        self.ellipse_apply_button.clicked.connect(self.on_detect_ellipse_clicked)
 
         self.kernel_size_text = self.findChild(QLineEdit, "canny_kernel_size")
         self.sigma_text = self.findChild(QLineEdit, "canny_sigma")
@@ -182,6 +186,7 @@ class MainWindow(QMainWindow):
     
     def on_detect_ellipse_clicked(self):
         self.hough.detect_ellipse()
+        self.controller.update()
 
     def apply_canny(self):
         kernel_size = int(self.kernel_size_text.text())
@@ -230,7 +235,7 @@ class MainWindow(QMainWindow):
             self.timer.start(100)
 
 
-        else :
+        else:
             self.active_contour_model.flag_continue = False
             self.apply_snake_model_button.setIcon(self.apply_icon)
             self.apply_snake_model_button.setText("Play")
