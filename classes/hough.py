@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from classes.line import Line
 from classes.circle import Circle
 from classes.ellipse import Ellipse
-from skimage.measure import ransac, EllipseModel
+# from skimage.measure import ransac, EllipseModel
 
 class Hough():
     def __init__(self, output_viewer):

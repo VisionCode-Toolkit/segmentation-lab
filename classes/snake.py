@@ -115,7 +115,8 @@ class ActiveContour:
         self.contour = new_contour
         self.current_iteration += 1
 
-        print(f"tteration {self.current_iteration} completed.")
+        # print(f"tteration {self.current_iteration} completed.")
+        print(f"Window_size {self.window_size}")
 
 
         if self.current_iteration >= self.max_iterations:
@@ -134,9 +135,10 @@ class ActiveContour:
         if self.contour is None:
             raise ValueError("contour not initialized! Call initialize_contour() first.")
         chain_code = []
+
         for i in range(1, len(self.contour)):
-            current = tuple(self.contour[i][0])
-            prev = tuple(self.contour[i-1][0])
+            current = tuple(self.contour[i])
+            prev = tuple(self.contour[i-1])
 
             direction = (current[0] - prev[0], current[1] - prev[1])
             if direction[0] > 0:
@@ -174,8 +176,8 @@ class ActiveContour:
             raise ValueError("contour not initialized! Call initialize_contour() first.")
         premeter = 0.0
         for i in range(len(self.contour)):
-            current = tuple(self.contour[i][0])
-            next = tuple(self.contour[(i + 1) % len(self.contour)][0])
+            current = tuple(self.contour[i])
+            next = tuple(self.contour[(i + 1) % len(self.contour)])
             premeter += np.linalg.norm(np.array(current) - np.array(next))
 
         return premeter
@@ -194,8 +196,8 @@ class ActiveContour:
         area = 0.0
 
         for i in range(len(self.contour)):
-            x1, y1 = self.contour[i][0]
-            x2, y2 = self.contour[(i + 1) % len(self.contour)][0]
+            x1, y1 = self.contour[i]
+            x2, y2 = self.contour[(i + 1) % len(self.contour)]
 
             area += (x1 * y2) - (x2 * y1)
 

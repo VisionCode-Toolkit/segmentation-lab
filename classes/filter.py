@@ -28,7 +28,7 @@ class Filters():
         gaussian_kernel = np.array(gaussian_kernel) / total_sum
         return gaussian_kernel
 
-    def apply_gaussian_filter(self, sigma, kernel_size=11):
+    def apply_gaussian_filter(self, sigma, kernel_size):
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
         filtered_img = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
 

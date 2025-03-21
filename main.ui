@@ -1211,7 +1211,7 @@ font-weight:500;</string>
 </string>
                    </property>
                    <property name="placeholderText">
-                    <string>Ex: 0.1</string>
+                    <string>Ex: 2</string>
                    </property>
                   </widget>
                  </item>
@@ -1263,7 +1263,7 @@ font-weight:500;</string>
 </string>
                    </property>
                    <property name="placeholderText">
-                    <string>Ex: 0.1</string>
+                    <string>Ex: 1</string>
                    </property>
                   </widget>
                  </item>
@@ -1309,7 +1309,7 @@ font-weight:500;</string>
 </string>
                    </property>
                    <property name="placeholderText">
-                    <string>Ex: 0.1</string>
+                    <string>Ex: 5</string>
                    </property>
                   </widget>
                  </item>
@@ -1355,7 +1355,7 @@ font-weight:500;</string>
 </string>
                    </property>
                    <property name="placeholderText">
-                    <string>Ex: 100</string>
+                    <string>Ex: 300</string>
                    </property>
                   </widget>
                  </item>
@@ -1431,6 +1431,9 @@ width: 8px;
 	image: url(icons_setup/icons/up.png);
 }
 </string>
+                   </property>
+                   <property name="displayIntegerBase">
+                    <number>9</number>
                    </property>
                   </widget>
                  </item>
@@ -1735,7 +1738,7 @@ font-weight:500;
 border: None;</string>
              </property>
              <property name="text">
-              <string>Premeter of contour:</string>
+              <string>Perimeter of contour:</string>
              </property>
             </widget>
            </item>
