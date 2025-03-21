@@ -70,8 +70,10 @@ class Hough():
             y = y_indices[i]
             x = x_indices[i]
             for theta_idx, theta in enumerate(theta_range):
-                rho = int(x * np.cos(theta) + y * np.sin(theta))
-                rho_idx = np.argmin(np.abs(rho_range - rho)) # Find closest rho value index
+                rho = x * np.cos(theta) + y * np.sin(theta)
+                rho_idx = np.searchsorted(rho_range, rho)
+                if rho_idx == len(rho_range):
+                    rho_idx = len(rho_range) - 1 # Find closest rho value index
                 accumulator[rho_idx, theta_idx] += 1
         suppressed_accumulator = maximum_filter(accumulator, size = 20, mode='constant')
         line_indices = np.argwhere((accumulator == suppressed_accumulator) & (accumulator > accumulator_threshold))
