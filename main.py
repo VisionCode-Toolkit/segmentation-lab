@@ -150,19 +150,24 @@ class MainWindow(QMainWindow):
         # return
         if text == Modes.CANNY.value:
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "canny_page"))
+            self.statistics_widget.hide()
         elif text == Modes.SNAKE.value:
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "snake_page"))
             self.statistics_widget.show()
 
         elif text == Modes.LINE.value:
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "Hough_line_page"))
+            self.statistics_widget.hide()
         elif text == Modes.CIRCLE.value:
-            page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "hough_circle_page"))
+            page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "Hough_line_page"))
+            self.statistics_widget.hide()
         elif text == Modes.ELLIPSE.value:
-            page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "Hough_elipse_page"))
+            page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "Hough_line_page"))
+            self.statistics_widget.hide()
         else:
             page_index = self.modes_stacked_widget.indexOf(self.findChild(QWidget, "main_page"))
             self.intialize_snake_model.drawing = False
+            self.statistics_widget.hide()
         if text == Modes.SNAKE.value:
             self.intialize_snake_model.drawing = True
 
