@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
             self.intialize_snake_model.drawing = False
 
 
-    def on_choose_mode_value_changed(self):
+    def on_choose_mode_value_changed(self): ###
         text = self.mode_combobox.currentText()
         print(text)
         # return
