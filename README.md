@@ -2,7 +2,7 @@
 
 
 
-## ## Description
+ ## Description
 This repository contains an implementation of edge and boundary detection techniques **from scratch**, including:
 - **Canny edge detection**
 - **Hough Transform** for detecting lines, circles, and ellipses
@@ -22,8 +22,8 @@ This repository contains an implementation of edge and boundary detection techni
 
 ---
 
-## 🚀 Implementation Details
-### 🔹 Edge Detection & Shape Extraction
+##  Implementation Details
+###  Edge Detection & Shape Extraction
 #### Canny Edge Detector (Implemented from scratch)
 
 The Canny edge detector is a multi-stage algorithm that involves:
@@ -43,7 +43,7 @@ The Hough Transform is a feature extraction technique used to detect simple shap
 - **Circles**: [Video](https://your-video-link.com)
 - **Ellipses**: [Video](https://your-video-link.com)
 
-### 🔹 Active Contour Model (Snake)
+###  Active Contour Model (Snake)
 
 The **Active Contour Model (Snake)** is an energy-minimizing spline that evolves toward object boundaries:
 - **Initialization**: Define an initial contour close to the target object.
