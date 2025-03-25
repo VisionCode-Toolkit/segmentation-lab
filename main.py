@@ -54,13 +54,13 @@ class MainWindow(QMainWindow):
         self.reset_button.clicked.connect(self.on_reset_button_clicked)
         
         self.line_apply_button = self.findChild(QPushButton, "line_apply_button")
-        self.line_apply_button.clicked.connect(self.on_detect_line_clicked)
+        self.line_apply_button.clicked.connect(self.on_apply_clicked)
         
-        self.circle_apply_button = self.findChild(QPushButton, "circle_apply_button")
-        self.circle_apply_button.clicked.connect(self.on_detect_circle_clicked)
+        # self.circle_apply_button = self.findChild(QPushButton, "circle_apply_button")
+        # self.circle_apply_button.clicked.connect(self.on_detect_circle_clicked)
         
-        self.ellipse_apply_button = self.findChild(QPushButton, "ellipse_apply_button")
-        self.ellipse_apply_button.clicked.connect(self.on_detect_ellipse_clicked)
+        # self.ellipse_apply_button = self.findChild(QPushButton, "ellipse_apply_button")
+        # self.ellipse_apply_button.clicked.connect(self.on_detect_ellipse_clicked)
 
         self.kernel_size_text = self.findChild(QLineEdit, "canny_kernel_size")
         self.sigma_text = self.findChild(QLineEdit, "canny_sigma")
@@ -178,20 +178,37 @@ class MainWindow(QMainWindow):
         if page_index != -1:
             self.modes_stacked_widget.setCurrentIndex(page_index)
             
+            
+    def on_apply_clicked(self):
+        text = self.mode_combobox.currentText()
+        if text == Modes.LINE.value:
+            self.on_detect_line_clicked()
+        elif text == Modes.CIRCLE.value:
+            self.on_detect_circle_clicked()
+        elif text == Modes.ELLIPSE.value:
+            self.on_detect_ellipse_clicked()
+            
+            
     def on_detect_circle_clicked(self):
-        self.hough.detect_circles()
+        accumulator_threshold, low_threshold, high_threshold = self.get_detection_parameters()
+        self.hough.detect_circles(accumulator_threshold, low_threshold, high_threshold)
         self.controller.update()
     
     def on_detect_line_clicked(self):
-        accumulator_threshold = int(self.findChild(QLineEdit, "line_no_of_lines").text())
-        low_threshold = int(self.findChild(QLineEdit, "line_low_threshold").text())
-        high_threshold = int(self.findChild(QLineEdit, "line_high_threshold").text())
+        accumulator_threshold, low_threshold, high_threshold = self.get_detection_parameters()
         self.hough.detect_lines(accumulator_threshold, low_threshold, high_threshold)
         self.controller.update()
     
     def on_detect_ellipse_clicked(self):
-        self.hough.detect_ellipse()
+        accumulator_threshold, low_threshold, high_threshold = self.get_detection_parameters()
+        self.hough.detect_ellipse(min_votes=accumulator_threshold, canny_low_threshold=low_threshold, canny_high_threshold=high_threshold)
         self.controller.update()
+        
+    def get_detection_parameters(self):
+        accumulator_threshold = int(self.findChild(QLineEdit, "line_no_of_lines").text())
+        low_threshold = int(self.findChild(QLineEdit, "line_low_threshold").text())
+        high_threshold = int(self.findChild(QLineEdit, "line_high_threshold").text())
+        return accumulator_threshold, low_threshold, high_threshold
 
     def apply_canny(self):
         kernel_size = int(self.kernel_size_text.text())

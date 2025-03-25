@@ -48,3 +48,6 @@ class Image():
     @modified_image.setter
     def modified_image(self, value):
         self.__modified_image = value
+    @original_image.setter
+    def original_image(self, value):
+        self.__original_image = value

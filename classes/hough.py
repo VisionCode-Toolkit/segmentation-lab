@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from classes.line import Line
 from classes.circle import Circle
 from classes.ellipse import Ellipse
+import math
 # from skimage.measure import ransac, EllipseModel
 
 class Hough():
@@ -12,7 +13,7 @@ class Hough():
         self.__output_viewer = output_viewer
     
     
-    def detect_circles(self, accumulator_threshold=50):
+    def detect_circles(self, accumulator_threshold=50, low_threshold = 50, high_threshold = 150):
         self.__output_viewer.current_image.transfer_to_gray_scale()
         image = self.__output_viewer.current_image.modified_image
         scale = 1
@@ -23,7 +24,7 @@ class Hough():
         min_radius, max_radius = 10, min(width, height)//2
         radius_range = np.arange(min_radius, max_radius, 2)  # Step by 2 for speed
         accumulator = np.zeros((acc_height, acc_width, len(radius_range)))
-        edges = cv2.Canny(small_image, 50, 150)
+        edges = cv2.Canny(small_image, low_threshold, high_threshold)
         y_indices, x_indices = np.where(edges > 0)
         
         test = 0
@@ -36,7 +37,11 @@ class Hough():
                     b = y - radius * np.sin(angle * np.pi / 180)
                     test+=1
                     if 0 <= a < width and 0 <= b < height:
-                        accumulator[int(b//scale_factor), int(a//scale_factor), r_idx] += 1
+                        row_idx = int(b // scale_factor)
+                        col_idx = int(a // scale_factor)
+                        row_idx = min(max(row_idx, 0), accumulator.shape[0] - 1)
+                        col_idx = min(max(col_idx, 0), accumulator.shape[1] - 1)
+                        accumulator[row_idx, col_idx, r_idx] += 1
         circles = []
         threshold = accumulator_threshold
         self.__output_viewer.current_image.shapes_list.clear()
@@ -91,11 +96,11 @@ class Hough():
         print(lines)
         return lines  # Return the actual lines
     
-    def detect_ellipse(self, num_of_iterations = 90000*4, seed = 60, min_votes = 2): #here we will implement the randomized hough transform 
+    def detect_ellipse(self, num_of_iterations = 90000*4, seed = 60, min_votes = 2, canny_low_threshold = 50, canny_high_threshold = 150): #here we will implement the randomized hough transform 
         self.__output_viewer.current_image.transfer_to_gray_scale()
         image = self.__output_viewer.current_image.modified_image
         height, width = image.shape
-        edges = cv2.Canny(image, 50,150)
+        edges = cv2.Canny(image, canny_low_threshold, canny_high_threshold)
         y_indices, x_indices = np.where(edges > 0)
         edge_points = np.column_stack((x_indices, y_indices))
         if len(edge_points) < 5:
