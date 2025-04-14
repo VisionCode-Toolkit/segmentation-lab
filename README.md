@@ -1,5 +1,5 @@
 # segmentation-lab
-
+![Application Overview](assets/Group_17.png "")
 
 
  ## Description
